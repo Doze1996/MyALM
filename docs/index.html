@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyALM 知识库</title>
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h1 class="brand">MyALM</h1>
+      <nav data-sidebar></nav>
+    </aside>
+    <main class="content">
+      <section class="doc-section">
+        <h1>资产负债管理系统学习知识库</h1>
+        <p class="lead">本知识库用于系统学习银行 ALM。当前范围聚焦流动性风险与利率风险，不包含 FTP。</p>
+
+        <div class="note">侧边栏由 <code>docs/sidebar.js</code> 统一生成。后续新增模块时，只需要维护一个目录配置。</div>
+
+        <h2>一、模块划分</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>基础认知</h3>
+            <p>解释 ALM 系统定位、边界、数据来源，以及与核心、风险、管理会计、FTP 的关系。</p>
+          </article>
+          <article class="card">
+            <h3>共同基础</h3>
+            <p>覆盖现金流展开、期限分桶、Gap 分析等流动性风险和利率风险共用的基础能力。</p>
+          </article>
+          <article class="card">
+            <h3>流动性风险</h3>
+            <p>关注未来资金流入流出、期限缺口、优质流动性资产、LCR、NSFR 和压力情景。</p>
+          </article>
+          <article class="card">
+            <h3>利率风险</h3>
+            <p>关注利率变化对银行账簿经济价值和净利息收入的影响，包括 IRRBB、EVE、NII。</p>
+          </article>
+          <article class="card">
+            <h3>模型与场景</h3>
+            <p>沉淀提前还款、提前支取、无到期存款、利率冲击、流动性压力等模型假设。</p>
+          </article>
+          <article class="card">
+            <h3>系统实现</h3>
+            <p>整理账户级数据模型、参数表、批处理流程、数据质量校验和性能优化方法。</p>
+          </article>
+        </div>
+
+        <h2>二、核心学习路径</h2>
+        <table>
+          <thead>
+            <tr><th>阶段</th><th>学习重点</th><th>对应模块</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>理解 ALM 解决什么问题</td><td>ALM 总览</td></tr>
+            <tr><td>2</td><td>理解账户如何生成未来现金流</td><td>现金流展开</td></tr>
+            <tr><td>3</td><td>区分期限缺口与重定价缺口</td><td>Gap 分析</td></tr>
+            <tr><td>4</td><td>学习流动性风险指标</td><td>流动性风险、LCR、NSFR</td></tr>
+            <tr><td>5</td><td>学习利率风险指标</td><td>利率风险、IRRBB、EVE、NII</td></tr>
+            <tr><td>6</td><td>沉淀系统开发视角</td><td>数据模型、批处理与性能</td></tr>
+          </tbody>
+        </table>
+
+        <h2>三、当前不纳入范围</h2>
+        <p>FTP 在很多银行作为独立系统存在，主要用于内部资金转移定价和经营绩效评价。本知识库不编写 FTP 计算模块，只在说明系统边界时提及。</p>
+      </section>
+    </main>
+  </div>
+  <script src="./sidebar.js"></script>
+  <script src="./assets/app.js"></script>
+</body>
+</html>
