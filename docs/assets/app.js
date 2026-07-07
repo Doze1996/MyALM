@@ -1,4 +1,25 @@
-const SITE_VERSION = 'v0.1.3';
+const SITE_VERSION = 'v0.1.4';
+
+const CROSS_REFERENCE_ITEMS = [
+  { text: '现金流展开', href: './modules/cashflow.html' },
+  { text: '现金流', href: './modules/cashflow.html' },
+  { text: 'Gap 分析', href: './modules/gap-analysis.html' },
+  { text: '期限缺口', href: './modules/gap-analysis.html' },
+  { text: '重定价缺口', href: './modules/gap-analysis.html' },
+  { text: '流动性风险', href: './modules/liquidity-risk.html' },
+  { text: '利率风险', href: './modules/interest-rate-risk.html' },
+  { text: 'LCR', href: './modules/lcr.html' },
+  { text: 'NSFR', href: './modules/nsfr.html' },
+  { text: 'IRRBB', href: './modules/irrbb.html' },
+  { text: 'EVE', href: './modules/eve.html' },
+  { text: 'NII', href: './modules/nii.html' },
+  { text: '压力测试', href: './modules/stress-test.html' },
+  { text: '压力情景', href: './modules/stress-test.html' },
+  { text: '情景模拟', href: './modules/stress-test.html' },
+  { text: '数据模型', href: './modules/data-model.html' },
+  { text: '批处理', href: './modules/batch-processing.html' },
+  { text: '术语表', href: './modules/glossary.html' }
+];
 
 function getSiteBasePath() {
   const pathname = window.location.pathname;
@@ -118,4 +139,50 @@ function renderSidebar() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', renderSidebar);
+function normalizeReferencePath(href) {
+  return href.replace(/^\.\/modules\//, 'modules/');
+}
+
+function shouldSkipReferenceNode(node) {
+  const parent = node.parentElement;
+  if (!parent) return true;
+  return Boolean(parent.closest('a, code, pre, h1, h2, h3, script, style'));
+}
+
+function linkCrossReferences() {
+  const section = document.querySelector('.doc-section');
+  if (!section) return;
+
+  const currentPath = window.location.pathname;
+  const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    if (!shouldSkipReferenceNode(node)) textNodes.push(node);
+  }
+
+  textNodes.forEach((node) => {
+    const item = CROSS_REFERENCE_ITEMS.find((candidate) => {
+      const targetPath = normalizeReferencePath(candidate.href);
+      return !currentPath.endsWith(targetPath) && node.nodeValue.includes(candidate.text);
+    });
+
+    if (!item) return;
+
+    const text = node.nodeValue;
+    const index = text.indexOf(item.text);
+    const before = document.createTextNode(text.slice(0, index));
+    const link = document.createElement('a');
+    link.href = getItemUrl(item);
+    link.textContent = item.text;
+    const after = document.createTextNode(text.slice(index + item.text.length));
+
+    node.replaceWith(before, link, after);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderSidebar();
+  linkCrossReferences();
+});
