@@ -1,3 +1,5 @@
+const SITE_VERSION = 'v0.1.2';
+
 function getSiteBasePath() {
   const pathname = window.location.pathname;
   const modulesIndex = pathname.indexOf('/modules/');
@@ -29,6 +31,17 @@ function isCurrentItem(item) {
   return currentPath === basePath + itemPath;
 }
 
+function setupBrandVersion() {
+  document.querySelectorAll('.brand').forEach((brand) => {
+    if (brand.querySelector('.brand-version')) return;
+
+    const version = document.createElement('span');
+    version.className = 'brand-version';
+    version.textContent = SITE_VERSION;
+    brand.appendChild(version);
+  });
+}
+
 function setupSidebarToggle(sidebar) {
   const aside = sidebar.closest('.sidebar');
   if (!aside || aside.querySelector('.sidebar-toggle')) return;
@@ -56,6 +69,7 @@ function renderSidebar() {
   const sidebar = document.querySelector('[data-sidebar]');
   if (!sidebar || !window.SIDEBAR_ITEMS) return;
 
+  setupBrandVersion();
   setupSidebarToggle(sidebar);
 
   const groups = new Map();
