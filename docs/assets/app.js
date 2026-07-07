@@ -38,6 +38,11 @@ function setupBrandVersion() {
     const version = document.createElement('span');
     version.className = 'brand-version';
     version.textContent = SITE_VERSION;
+    version.style.marginLeft = '8px';
+    version.style.color = 'var(--muted)';
+    version.style.fontSize = '12px';
+    version.style.fontWeight = '400';
+    version.style.verticalAlign = 'middle';
     brand.appendChild(version);
   });
 }
