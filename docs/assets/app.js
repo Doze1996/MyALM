@@ -1,4 +1,4 @@
-const SITE_VERSION = 'v0.1.2';
+const SITE_VERSION = 'v0.1.3';
 
 function getSiteBasePath() {
   const pathname = window.location.pathname;
