@@ -138,6 +138,20 @@ pre { padding: 14px; overflow-x: auto; }
   margin: 18px 0;
 }
 
+.site-version {
+  position: fixed;
+  right: 14px;
+  bottom: 10px;
+  z-index: 20;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
