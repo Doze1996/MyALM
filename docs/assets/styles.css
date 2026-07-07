@@ -44,6 +44,8 @@ a:hover { text-decoration: underline; }
   color: var(--accent);
 }
 
+.sidebar-toggle { display: none; }
+
 .sidebar-group { margin-bottom: 18px; }
 .sidebar-group h2 {
   margin: 0 0 6px;
@@ -154,6 +156,66 @@ pre { padding: 14px; overflow-x: auto; }
 
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; }
-  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-  .content { padding: 24px; }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: auto;
+    max-height: 72vh;
+    overflow-y: auto;
+    padding: 10px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .sidebar-toggle {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .sidebar nav {
+    display: none;
+    padding-top: 10px;
+  }
+
+  .sidebar.open nav { display: block; }
+
+  .sidebar-group { margin-bottom: 12px; }
+  .sidebar-group a { padding: 8px 10px; }
+
+  .content { padding: 18px 14px 72px; }
+
+  .doc-section {
+    padding: 20px 16px;
+    border-radius: 10px;
+  }
+
+  h1 { font-size: 26px; }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .site-version {
+    right: 10px;
+    bottom: 8px;
+  }
 }
