@@ -1,12 +1,63 @@
-function normalizePath(path) {
-  return path.replace(/\\/g, '/').replace(/.*\/docs\//, './');
+function getSiteBasePath() {
+  const pathname = window.location.pathname;
+  const modulesIndex = pathname.indexOf('/modules/');
+
+  if (modulesIndex >= 0) {
+    return pathname.slice(0, modulesIndex + 1);
+  }
+
+  return pathname.replace(/[^/]*$/, '');
+}
+
+function getItemPath(item) {
+  return item.href.replace(/^\.\//, '');
+}
+
+function getItemUrl(item) {
+  return getSiteBasePath() + getItemPath(item);
+}
+
+function isCurrentItem(item) {
+  const basePath = getSiteBasePath();
+  const itemPath = getItemPath(item);
+  const currentPath = window.location.pathname;
+
+  if (itemPath === 'index.html') {
+    return currentPath === basePath || currentPath === basePath + itemPath;
+  }
+
+  return currentPath === basePath + itemPath;
+}
+
+function setupSidebarToggle(sidebar) {
+  const aside = sidebar.closest('.sidebar');
+  if (!aside || aside.querySelector('.sidebar-toggle')) return;
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'sidebar-toggle';
+  button.setAttribute('aria-expanded', 'false');
+  button.textContent = '目录';
+
+  button.addEventListener('click', () => {
+    const isOpen = aside.classList.toggle('open');
+    button.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  const brand = aside.querySelector('.brand');
+  if (brand) {
+    brand.insertAdjacentElement('afterend', button);
+  } else {
+    aside.insertBefore(button, aside.firstChild);
+  }
 }
 
 function renderSidebar() {
   const sidebar = document.querySelector('[data-sidebar]');
   if (!sidebar || !window.SIDEBAR_ITEMS) return;
 
-  const current = normalizePath(window.location.pathname);
+  setupSidebarToggle(sidebar);
+
   const groups = new Map();
 
   window.SIDEBAR_ITEMS.forEach((item) => {
@@ -28,11 +79,17 @@ function renderSidebar() {
     items.forEach((item) => {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = item.href;
+      a.href = getItemUrl(item);
       a.textContent = item.title;
-      if (current.endsWith(item.href.replace('./', ''))) {
+      if (isCurrentItem(item)) {
         a.className = 'active';
       }
+      a.addEventListener('click', () => {
+        const aside = sidebar.closest('.sidebar');
+        const button = aside && aside.querySelector('.sidebar-toggle');
+        if (aside) aside.classList.remove('open');
+        if (button) button.setAttribute('aria-expanded', 'false');
+      });
       li.appendChild(a);
       list.appendChild(li);
     });
